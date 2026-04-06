@@ -1,37 +1,106 @@
-[![Build Status](https://travis-ci.com/maksymshylo/statistical_pattern_recognition.svg?token=j9Kqn8jNSznud7EAtsqm&branch=main)](https://travis-ci.com/maksymshylo/statistical_pattern_recognition)
-
 # Statistical Pattern Recognition
-Labs for University Course     
 
+Laboratory works from the university course.
 
-[tasks](https://github.com/maksymshylo/statistical_pattern_recognition/blob/main/tasks.pdf "tasks"),  [solutions](https://github.com/maksymshylo/statistical_pattern_recognition/blob/main/solutions.pdf "solutions")
+## Lab 1 – Recognition of a noised string
 
-## Lab 1 - DP algorithm for chain-structured graphical models 
-### Image Denoising (Bernoulli noise)
-#### Examples
-```bash
-python3 lab1/main.py lab1/frequencies.json lab1/alphabet path_to_input_image noise_level
+### Description
+The program converts a string to a noised image and then decodes it.
+Dynamic programming algorithm for chain-structured graphical models.
 
-python3 lab1/main.py lab1/frequencies.json lab1/alphabet 'lab1/test_images/hello sweety_0.3.png' 0.3
-python3 lab1/main.py lab1/frequencies.json lab1/alphabet 'lab1/test_images/but thence i learn and find the lesson true drugs poison him that so feil sick of you_0.45.png' 0.45
+### Usage
+```commandline
+ $ python3 lab1/decode_string.py --help
+usage: decode_string.py [-h] --input_string INPUT_STRING --noise_level NOISE_LEVEL [--seed SEED]
+
+options:
+  -h, --help            show this help message and exit
+  --input_string INPUT_STRING
+                        input string
+  --noise_level NOISE_LEVEL
+                        noise level of bernoulli distribution
+  --seed SEED           seed to debug
 ```
-## Lab 2 - Min-Sum Diffusion
-### Image Segmentation
-#### Examples
+### Examples
 ```bash
-python3 lab2/main.py input_image alpha n_iter colors
-
-python3 lab2/main.py lab2/test_images/ipt.png 1 10 blue white yellow
-python3 lab2/main.py lab2/test_images/map_hsv.png 3 100 blue lime
+python3 decode_string.py --input_string "billy herrington" --noise_level 0.35 --seed 45
 ```
-## Lab 3 - Tree Reweighted Message Passing (TRW-S)
-### Image Inpainting
-#### Examples
+Decoded string: "billy herrington"
+
+| Original image                        |           Noised image           | Decoded image                     |
+|---------------------------------------|:--------------------------------:|-----------------------------------|
+| ![](.imgs/lab1/test1/input_image.png) | ![](.imgs/lab1/test1/noised_image.png) | ![](.imgs/lab1/test1/decoded_image.png) |
+
+## Lab 2 - Image segmentation
+
+### Description
+The program segmentates a noised image using Min-Sum Diffusion.
+
+### Usage
+```commandline
+$ python3 image_denoiser.py --help
+usage: image_denoiser.py [-h] --img_path IMG_PATH --alpha ALPHA [--n_iter N_ITER] [--c C [C ...]]
+
+Image segmentation on a noised image using diffusion.
+
+options:
+  -h, --help           show this help message and exit
+  --img_path IMG_PATH  Path to the image to denoise
+  --alpha ALPHA        Alpha parameter for binary penalties
+  --n_iter N_ITER      Number of iterations
+  --c C [C ...]        List of colors to segment
+```
+
+### Examples
+
 ```bash
-python3 lab3/main.py input_image alpha Epsilon n_labels n_iter
-
-python3 lab3/main.py lab3/test_images/mona-lisa-damaged.png 1 0 18 1
+python3 image_denoiser.py --img_path "test_images/map_hsv.png" --alpha 3 --n_iter 100 --c "blue lime"
 ```
+
+|              Noised image              | Decoded image                              |
+|:--------------------------------------:|--------------------------------------------|
+| ![](labs/lab2/test_images/map_hsv.png) | ![](.imgs/lab2/test2/denoised_map_hsv.png) |
+
+
+```bash
+python3 image_denoiser.py --img_path "test_images/ipt.png" --alpha 1 --n_iter 100 --c "blue yellow white"
+```
+
+|            Noised image            | Decoded image                          |
+|:----------------------------------:|----------------------------------------|
+| ![](labs/lab2/test_images/ipt.png) | ![](.imgs/lab2/test2/denoised_ipt.png) |
+
+
+## Lab 3 - Image Inpainting 
+
+### Description
+The program inpaint mask regions using Tree Reweighted Message Passing (TRW-S) algorithm.
+
+```commandline
+$ python3 image_inpainter.py --help
+usage: image_inpainter.py [-h] --img_path IMG_PATH --alpha ALPHA --epsilon EPSILON --n_labels N_LABELS --n_iter N_ITER
+
+Image inpainter using TRW-S algorithm.
+
+options:
+  -h, --help           show this help message and exit
+  --img_path IMG_PATH  Path to the image.
+  --alpha ALPHA        Smoothing coefficient for binary penalties.
+  --epsilon EPSILON    Special parameter, which is responsible for lack of color information.
+  --n_labels N_LABELS  Number of labels.
+  --n_iter N_ITER      Number of iterations.
+```
+
+### Examples
+```bash
+python3 image_inpainter.py --img_path "test_images/mona-lisa-damaged.png" --alpha 1 --epsilon 0 --n_labels 18 --n_iter 4
+```
+
+|                 Image with marks                 | Inpainted image                     |
+|:------------------------------------------------:|-------------------------------------|
+| ![](labs/lab3/test_images/mona-lisa-damaged.png) | ![](.imgs/lab3/test1/inpainted.png) |
+
+
 ## Lab 4 - "GrabCut"
 **_NOTE:_**  TRW-S as an energy minimization algorithm (instead of Min-Cut/Max-Flow algorithm)
 ### Interactive Foreground Extraction
@@ -42,3 +111,23 @@ python3 lab4/main.py image_path mask_path gamma n_bg n_fg color_bg color_fg em_n
 python3 lab4/main.py lab4/test_images/alpaca.jpg lab4/test_images/alpaca-segmentation.png  50 3 3 blue red 10 10 1
 python3 lab4/main.py lab4/test_images/lotus.jpg lab4/test_images/lotus-segmentation.png  50 3 3 lime blue 10 10 1
 ```
+
+## Setup
+
+To run these applications, you need to have **Python3.12**.
+
+1. Clone repo
+
+2. Create virtual environment.
+```bash
+python3.12 -m venv .venv
+```
+
+3. Activate it
+```bash
+source .venv/bin/activate
+```
+
+4. Install requirements:
+```bash
+pip install -r requirements.txt
