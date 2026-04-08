@@ -1,7 +1,5 @@
 # Statistical Pattern Recognition
 
-Laboratory works from the university course.
-
 ## Lab 1 – Recognition of a noised string
 
 ### Description
@@ -151,7 +149,7 @@ python3 extract_foreground.py  \
         --n_iter 1 
 ```
 
-|                 Image                  | Manually Marked Mask <br/>(Blue - background, Red - Foreground) | Segmentation Mask Result               | Foreground Result                   |
+|                 Image                  | Manually Marked Mask <br/>(Blue - background, Red - foreground) | Segmentation Mask Result               | Foreground Result                   |
 |:--------------------------------------:|-----------------------------------------------------------------|----------------------------------------|-------------------------------------|
 | ![](labs/lab4/test_images/alpaca.jpg)  | ![](labs/lab4/test_images/alpaca-segmentation.png)              | ![](.imgs/lab4/test1/segmentation.png) | ![](.imgs/lab4/test1/extracted.png) |
 
@@ -169,9 +167,9 @@ python3 extract_foreground.py  \
         --n_iter 1 
 ```
 
-|                Image                 | Manually Marked Mask <br/>(Green - background, Blue - Foreground) | Segmentation Mask Result               | Foreground Result                   |
-|:------------------------------------:|----------------------------------------------------------------------|----------------------------------------|-------------------------------------|
-| ![](labs/lab4/test_images/lotus.jpg) | ![](labs/lab4/test_images/lotus-segmentation.png)                    | ![](.imgs/lab4/test2/segmentation.png) | ![](.imgs/lab4/test2/extracted.png) |
+|                Image                 | Manually Marked Mask <br/>(Green - background, Blue - foreground) | Segmentation Mask Result               | Foreground Result                   |
+|:------------------------------------:|-------------------------------------------------------------------|----------------------------------------|-------------------------------------|
+| ![](labs/lab4/test_images/lotus.jpg) | ![](labs/lab4/test_images/lotus-segmentation.png)                 | ![](.imgs/lab4/test2/segmentation.png) | ![](.imgs/lab4/test2/extracted.png) |
 
 
 ## Setup
