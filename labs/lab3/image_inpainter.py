@@ -43,13 +43,13 @@ def forward_pass(
                 # calculate the best path weight according to formula
                 P[i, j, 0, k] = max(
                     P[i, j - 1, 0, :]
-                    + (1 / 2) * Q[i, j - 1, :]
+                    + 0.5 * Q[i, j - 1, :]
                     - fi[i, j - 1, :]
                     + g[:, k]
                 )
                 P[i, j, 2, k] = max(
                     P[i - 1, j, 2, :]
-                    + (1 / 2) * Q[i - 1, j, :]
+                    + 0.5 * Q[i - 1, j, :]
                     + fi[i - 1, j, :]
                     + g[:, k]
                 )
@@ -79,31 +79,30 @@ def backward_pass(
         n_labels: Number of labels in labelset
         Q: Unary penalties
         g: Binary penalties
-        P: Array of the best path weights for each direction (Left, Right, Up,Down)
+        P: Array of the best path weights for each direction (Left, Right, Up, Down)
         fi: Array of potentials
 
     Returns:
         Updated P and fi arrays.
 
     """
-
     # Go from the bottom-right to the top-left pixel
     for i in range(height - 2, -1, -1):
         for j in range(width - 2, -1, -1):
-            # for each label in pixel
+            # for each label in a pixel
             for k in range(n_labels):
                 # P[i, j, 1, k] - Right direction
-                # P[i, j, 3 ,k] - Down direction
+                # P[i, j, 3, k] - Down direction
                 # Calculate the best path weight
                 P[i, j, 3, k] = max(
                     P[i + 1, j, 3, :]
-                    + (1 / 2) * Q[i + 1, j, :]
+                    + 0.5 * Q[i + 1, j, :]
                     + fi[i + 1, j, :]
                     + g[k, :]
                 )
                 P[i, j, 1, k] = max(
                     P[i, j + 1, 1, :]
-                    + (1 / 2) * Q[i, j + 1, :]
+                    + 0.5 * Q[i, j + 1, :]
                     - fi[i, j + 1, :]
                     + g[k, :]
                 )

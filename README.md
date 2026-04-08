@@ -31,7 +31,7 @@ Decoded string: "billy herrington"
 |---------------------------------------|:--------------------------------:|-----------------------------------|
 | ![](.imgs/lab1/test1/input_image.png) | ![](.imgs/lab1/test1/noised_image.png) | ![](.imgs/lab1/test1/decoded_image.png) |
 
-## Lab 2 - Image segmentation
+## Lab 2 – Image segmentation
 
 ### Description
 The program segmentates a noised image using Min-Sum Diffusion.
@@ -57,25 +57,26 @@ options:
 python3 image_denoiser.py --img_path "test_images/map_hsv.png" --alpha 3 --n_iter 100 --c "blue lime"
 ```
 
-|              Noised image              | Decoded image                              |
+|              Noised image              | Segmented image                            |
 |:--------------------------------------:|--------------------------------------------|
 | ![](labs/lab2/test_images/map_hsv.png) | ![](.imgs/lab2/test2/denoised_map_hsv.png) |
 
-
+### Usage
 ```bash
 python3 image_denoiser.py --img_path "test_images/ipt.png" --alpha 1 --n_iter 100 --c "blue yellow white"
 ```
 
-|            Noised image            | Decoded image                          |
+|            Noised image            | Segmented image                        |
 |:----------------------------------:|----------------------------------------|
 | ![](labs/lab2/test_images/ipt.png) | ![](.imgs/lab2/test2/denoised_ipt.png) |
 
 
-## Lab 3 - Image Inpainting 
+## Lab 3 – Image inpainting 
 
 ### Description
 The program inpaint mask regions using Tree Reweighted Message Passing (TRW-S) algorithm.
 
+### Usage
 ```commandline
 $ python3 image_inpainter.py --help
 usage: image_inpainter.py [-h] --img_path IMG_PATH --alpha ALPHA --epsilon EPSILON --n_labels N_LABELS --n_iter N_ITER
@@ -93,7 +94,7 @@ options:
 
 ### Examples
 ```bash
-python3 image_inpainter.py --img_path "test_images/mona-lisa-damaged.png" --alpha 1 --epsilon 0 --n_labels 18 --n_iter 4
+python3 image_inpainter.py --img_path "test_images/mona-lisa-damaged.png" --alpha 0.4 --epsilon 0 --n_labels 64 --n_iter 20
 ```
 
 |                 Image with marks                 | Inpainted image                     |
@@ -101,16 +102,77 @@ python3 image_inpainter.py --img_path "test_images/mona-lisa-damaged.png" --alph
 | ![](labs/lab3/test_images/mona-lisa-damaged.png) | ![](.imgs/lab3/test1/inpainted.png) |
 
 
-## Lab 4 - "GrabCut"
-**_NOTE:_**  TRW-S as an energy minimization algorithm (instead of Min-Cut/Max-Flow algorithm)
-### Interactive Foreground Extraction
-#### Examples
-```bash
-python3 lab4/main.py image_path mask_path gamma n_bg n_fg color_bg color_fg em_n_iter trws_n_iter n_iter 
+## Lab 4 – Interactive foreground extraction
 
-python3 lab4/main.py lab4/test_images/alpaca.jpg lab4/test_images/alpaca-segmentation.png  50 3 3 blue red 10 10 1
-python3 lab4/main.py lab4/test_images/lotus.jpg lab4/test_images/lotus-segmentation.png  50 3 3 lime blue 10 10 1
+### Description
+The program extracts the foreground from an image using the GrabCut algorithm.
+
+Gaussian Mixture Model (GMM) is used to model the foreground and background.
+TRW-S as an energy minimization algorithm.
+
+### Usage
+```commandline
+$ python3 extract_foreground.py --help
+usage: extract_foreground.py [-h] --img_path IMG_PATH --mask_path MASK_PATH --gamma GAMMA --n_bg N_BG --n_fg N_FG --bg_color BG_COLOR --fg_color FG_COLOR --em_n_iter
+                             EM_N_ITER --trws_n_iter TRWS_N_ITER --n_iter N_ITER
+
+Foreground extraction using EM and TRW-S algorithms.
+
+options:
+  -h, --help            show this help message and exit
+  --img_path IMG_PATH   Path to the input image.
+  --mask_path MASK_PATH
+                        Path to the interactive mask (user scribbles marking fg/bg).
+  --gamma GAMMA         Smoothness weight for pairwise terms. Controls edge preservation. Range: 10-100.
+  --n_bg N_BG           Number of Gaussian components for background GMM.
+  --n_fg N_FG           Number of Gaussian components for foreground GMM.
+  --bg_color BG_COLOR   Color marking background in the mask (e.g., 'red', 'blue').
+  --fg_color FG_COLOR   Color marking foreground in the mask (e.g., 'green', 'yellow').
+  --em_n_iter EM_N_ITER
+                        Number of EM iterations for GMM fitting per iteration.
+  --trws_n_iter TRWS_N_ITER
+                        Number of TRW-S message passing iterations per iteration.
+  --n_iter N_ITER       Total number of refinement iterations (alternating EM and TRW-S).
 ```
+
+### Examples
+
+```bash
+python3 extract_foreground.py  \
+        --img_path "test_images/alpaca.jpg"  \
+        --mask_path "test_images/alpaca-segmentation.png"  \
+        --gamma 50  \
+        --n_bg 3  \
+        --n_fg 3  \
+        --bg_color blue  \
+        --fg_color red  \
+        --em_n_iter 10  \
+        --trws_n_iter 10  \
+        --n_iter 1 
+```
+
+|                 Image                  | Manually Marked Mask <br/>(Blue - background, Red - Foreground) | Segmentation Mask Result               | Foreground Result                   |
+|:--------------------------------------:|-----------------------------------------------------------------|----------------------------------------|-------------------------------------|
+| ![](labs/lab4/test_images/alpaca.jpg)  | ![](labs/lab4/test_images/alpaca-segmentation.png)              | ![](.imgs/lab4/test1/segmentation.png) | ![](.imgs/lab4/test1/extracted.png) |
+
+```bash
+python3 extract_foreground.py  \
+        --img_path "test_images/alpaca.jpg"  \
+        --mask_path "test_images/alpaca-segmentation.png"  \
+        --gamma 50  \
+        --n_bg 3  \
+        --n_fg 3  \
+        --bg_color blue  \
+        --fg_color red  \
+        --em_n_iter 10  \
+        --trws_n_iter 10  \
+        --n_iter 1 
+```
+
+|                Image                 | Manually Marked Mask <br/>(Green - background, Blue - Foreground) | Segmentation Mask Result               | Foreground Result                   |
+|:------------------------------------:|----------------------------------------------------------------------|----------------------------------------|-------------------------------------|
+| ![](labs/lab4/test_images/lotus.jpg) | ![](labs/lab4/test_images/lotus-segmentation.png)                    | ![](.imgs/lab4/test2/segmentation.png) | ![](.imgs/lab4/test2/extracted.png) |
+
 
 ## Setup
 
@@ -131,3 +193,8 @@ source .venv/bin/activate
 4. Install requirements:
 ```bash
 pip install -r requirements.txt
+```
+
+## Authors
+- Maksym Shylo
+- Ruslan Khomenko
