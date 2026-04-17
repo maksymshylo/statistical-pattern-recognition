@@ -1,9 +1,52 @@
 # Statistical Pattern Recognition
 
-## Lab 1 – Recognition of a noised string
+**Table of contents**
+
+- [Lab 1. Recognition of a noisy string](#lab-1--recognition-of-a-noisy-string)
+- [Lab 2. Image segmentation](#lab-2--image-segmentation)
+- [Lab 3. Image inpainting](#lab-3--image-inpainting)
+- [Lab 4. Interactive foreground extraction](#lab-4--interactive-foreground-extraction)
+
+**Tasks and mathematical solutions**
+
+- [solutions.pdf](solutions.pdf).
+- [tasks.pdf](tasks.pdf);
+
+The tasks document is the 
+intellectual property of Valerii Krygin ([definability](https://github.com/definability)) and 
+is included in this repository with explicit permission.
+
+## Acknowledgements
+
+We sincerely thank the course instructor Valerii Krygin ([definability](https://github.com/definability))
+for his dedication, passion,
+and high-quality support throughout the course.
+
+## Setup
+
+To run these applications, you need to have **Python3.12**.
+
+1. Clone repo
+
+2. Create virtual environment.
+    ```bash
+    python3.12 -m venv .venv
+    ```
+
+3. Activate it
+    ```bash
+    source .venv/bin/activate
+    ```
+
+4. Install requirements:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Lab 1 – Recognition of a noisy string
 
 ### Description
-The program converts a string to a noised image and then decodes it.
+The program converts a string to a noisy image and then decodes it.
 Dynamic programming algorithm for chain-structured graphical models.
 
 ### Usage
@@ -25,21 +68,21 @@ python3 decode_string.py --input_string "billy herrington" --noise_level 0.35 --
 ```
 Decoded string: "billy herrington"
 
-| Original image                        |           Noised image           | Decoded image                     |
-|---------------------------------------|:--------------------------------:|-----------------------------------|
+| Original image                        |              Noisy image               | Decoded image                     |
+|---------------------------------------|:--------------------------------------:|-----------------------------------|
 | ![](.imgs/lab1/test1/input_image.png) | ![](.imgs/lab1/test1/noised_image.png) | ![](.imgs/lab1/test1/decoded_image.png) |
 
 ## Lab 2 – Image segmentation
 
 ### Description
-The program segmentates a noised image using Min-Sum Diffusion.
+The program segmentates a noisy image using Min-Sum Diffusion.
 
 ### Usage
 ```commandline
 $ python3 image_denoiser.py --help
 usage: image_denoiser.py [-h] --img_path IMG_PATH --alpha ALPHA [--n_iter N_ITER] [--c C [C ...]]
 
-Image segmentation on a noised image using diffusion.
+Image segmentation on a noisy image using diffusion.
 
 options:
   -h, --help           show this help message and exit
@@ -55,7 +98,7 @@ options:
 python3 image_denoiser.py --img_path "test_images/map_hsv.png" --alpha 3 --n_iter 100 --c "blue lime"
 ```
 
-|              Noised image              | Segmented image                            |
+|              Noisy image               | Segmented image                            |
 |:--------------------------------------:|--------------------------------------------|
 | ![](labs/lab2/test_images/map_hsv.png) | ![](.imgs/lab2/test2/denoised_map_hsv.png) |
 
@@ -64,12 +107,12 @@ python3 image_denoiser.py --img_path "test_images/map_hsv.png" --alpha 3 --n_ite
 python3 image_denoiser.py --img_path "test_images/ipt.png" --alpha 1 --n_iter 100 --c "blue yellow white"
 ```
 
-|            Noised image            | Segmented image                        |
+|            Noisy image             | Segmented image                        |
 |:----------------------------------:|----------------------------------------|
 | ![](labs/lab2/test_images/ipt.png) | ![](.imgs/lab2/test2/denoised_ipt.png) |
 
 
-## Lab 3 – Image inpainting 
+## Lab 3 – Image inpainting
 
 ### Description
 The program inpaint mask regions using Tree Reweighted Message Passing (TRW-S) algorithm.
@@ -171,28 +214,7 @@ python3 extract_foreground.py  \
 |:------------------------------------:|-------------------------------------------------------------------|----------------------------------------|-------------------------------------|
 | ![](labs/lab4/test_images/lotus.jpg) | ![](labs/lab4/test_images/lotus-segmentation.png)                 | ![](.imgs/lab4/test2/segmentation.png) | ![](.imgs/lab4/test2/extracted.png) |
 
-
-## Setup
-
-To run these applications, you need to have **Python3.12**.
-
-1. Clone repo
-
-2. Create virtual environment.
-```bash
-python3.12 -m venv .venv
-```
-
-3. Activate it
-```bash
-source .venv/bin/activate
-```
-
-4. Install requirements:
-```bash
-pip install -r requirements.txt
-```
-
 ## Authors
-- Maksym Shylo
-- Ruslan Khomenko
+
+- Maksym Shylo ([@maksymshylo](https://github.com/maksymshylo))
+- Ruslan Khomenko ([@Ruslan3584](https://github.com/Ruslan3584))

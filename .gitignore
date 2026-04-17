@@ -11,7 +11,7 @@ __pycache__/
 .idea/
 
 # macOS
-.DS_Store
+*.DS_Store
 
 # Ruff cache
 .ruff_cache/
